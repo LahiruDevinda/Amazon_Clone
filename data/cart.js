@@ -51,7 +51,7 @@ export function removeFromCart(productID) {
   saveToLocalStorage();
 }
 
-function saveToLocalStorage() {
+export function saveToLocalStorage() {
   localStorage.setItem('cart', JSON.stringify(cart));
 }
 
@@ -73,12 +73,4 @@ export function calculateCartTotal() {
     });
   });
   return cartTotal;
-}
-
-export function updateDeliveryOption(productId, deliveryOptionId) {
-  cart.forEach((cartItem) => {
-    if (cartItem.productId === productId) {
-      cartItem.deliveryOptionId = deliveryOptionId;
-    }
-  });
 }
