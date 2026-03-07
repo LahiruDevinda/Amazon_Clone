@@ -1,6 +1,13 @@
+import { products } from "./products.js";
+import { formatCurrency } from "../utils/money.js";
+
 export let cart = JSON.parse(localStorage.getItem('cart'));
 
-export function addToCart(productId){
+if(!cart) {
+    cart = [];
+}
+
+export function addToCart(productId, quantity, deliveryOptionId) {
   let matchingItem;
 
   cart.forEach((item) =>{
@@ -10,11 +17,12 @@ export function addToCart(productId){
   });
 
   if (matchingItem) {
-    matchingItem.quantity++;
+    matchingItem.quantity += quantity;
   } else {
     cart.push({
       productId: productId,
-      quantity: 1
+      quantity: quantity,
+      deliveryOptionId: deliveryOptionId
     });
   }
 
@@ -46,4 +54,32 @@ export function removeFromCart(productID) {
 
 function saveToLocalStorage() {
   localStorage.setItem('cart', JSON.stringify(cart));
+}
+
+export function itemsInCart() {
+  let cartQuantity = cart.length;
+
+  document.querySelector('.js-checkout-count').innerHTML = `${cartQuantity} items`;
+
+  document.querySelector('.js-order-summery-items-count').innerHTML = `Items (${cartQuantity}):`;
+}
+
+export function calculateCartTotal() {
+  let cartTotal = 0;
+  cart.forEach((cartItem) => {
+    products.forEach((product) => {
+      if (product.id === cartItem.productId) {
+        cartTotal += product.priceCents * cartItem.quantity;
+      }
+    });
+  });
+  return cartTotal;
+}
+
+export function updateDeliveryOption(productId, deliveryOptionId) {
+  cart.forEach((cartItem) => {
+    if (cartItem.productId === productId) {
+      cartItem.deliveryOptionId = deliveryOptionId;
+    }
+  });
 }

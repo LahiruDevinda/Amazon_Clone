@@ -1,6 +1,14 @@
-import { cart, updateCartQuantity, removeFromCart } from '../data/cart.js';
+import { 
+    cart,
+    removeFromCart,
+    itemsInCart,
+    calculateCartTotal,
+    updateDeliveryOption
+} from '../data/cart.js';
+
 import { products } from '../data/products.js';
-import { formatCurrency } from '../utils/money.js';
+import { formatCurrency, } from '../utils/money.js';
+import { orderSummery } from '../utils/orderSummery.js';
 
 let cartSummerHTML = '';
 
@@ -52,7 +60,9 @@ cart.forEach((cartItem) => {
             </div>
             <div class="delivery-option">
                 <input type="radio" checked
-                class="delivery-option-input"
+                class="delivery-option-input js-delivery-option"
+                data-product-id="${matchingProduct.id}"
+                data-delivery-option-id="1"
                 name="delivery-option-${matchingProduct.id}">
                 <div>
                 <div class="delivery-option-date">
@@ -65,7 +75,9 @@ cart.forEach((cartItem) => {
             </div>
             <div class="delivery-option">
                 <input type="radio"
-                class="delivery-option-input"
+                class="delivery-option-input js-delivery-option"
+                data-product-id="${matchingProduct.id}"
+                data-delivery-option-id="2"
                 name="delivery-option-${matchingProduct.id}">
                 <div>
                 <div class="delivery-option-date">
@@ -78,15 +90,17 @@ cart.forEach((cartItem) => {
             </div>
             <div class="delivery-option">
                 <input type="radio"
-                class="delivery-option-input"
+                class="delivery-option-input js-delivery-option"
+                data-product-id="${matchingProduct.id}"
+                data-delivery-option-id="3"
                 name="delivery-option-${matchingProduct.id}">
                 <div>
-                <div class="delivery-option-date">
-                    Monday, June 13
-                </div>
-                <div class="delivery-option-price">
-                    $9.99 - Shipping
-                </div>
+                    <div class="delivery-option-date">
+                        Monday, June 13
+                    </div>
+                    <div class="delivery-option-price">
+                        $9.99 - Shipping
+                    </div>
                 </div>
             </div>
             </div>
@@ -94,17 +108,32 @@ cart.forEach((cartItem) => {
     </div>`;
 });
 document.querySelector('.js-order-summery').innerHTML = cartSummerHTML;
+orderSummery();
+
+itemsInCart();
 
 document.querySelectorAll('.js-delete-link').forEach((deleteLink) => {
     deleteLink.addEventListener('click', () => {
-        console.log('delete link was clicked');
-        const productID = deleteLink.dataset.productId;
-        console.log('productID:', productID);
+        
+        const productID = deleteLink.dataset.productId; 
         removeFromCart(productID);
-        console.log('cart after deletion:', cart);
         const container =document.querySelector(`.js-cart-item-container-${productID}`);
         container.remove();
+
+        itemsInCart();
+        orderSummery();
     });
 
 });
+
+document.querySelectorAll('.js-delivery-option').forEach((option) => {
+    option.addEventListener('click', () => {
+        const productID = option.dataset.productId;
+        const deliveryOptionId = option.dataset.deliveryOptionId;
+        updateDeliveryOption(productID, deliveryOptionId);
+        orderSummery();
+    });
+});
+
+
 
