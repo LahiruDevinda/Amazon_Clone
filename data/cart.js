@@ -1,5 +1,4 @@
 import { products } from "./products.js";
-import { formatCurrency } from "../utils/money.js";
 
 export let cart = JSON.parse(localStorage.getItem('cart'));
 
