@@ -1,8 +1,7 @@
 import { 
     cart,
     removeFromCart,
-    itemsInCart,
-    updateDeliveryOption
+    itemsInCart
 } from '../data/cart.js';
 
 import {
@@ -16,6 +15,10 @@ import {
 import { 
     orderSummery
 } from '../utils/orderSummery.js';
+
+import {
+    updateDeliveryOption
+} from '../data/deliveryOptions.js';
 
 import { 
     setDeliveryDate,
@@ -71,7 +74,8 @@ cart.forEach((cartItem) => {
                 Choose a delivery option:
             </div>
             <div class="delivery-option">
-                <input type="radio" checked
+                <input type="radio"
+                ${cartItem.deliveryOptionId === '1' ? 'checked' : ''}
                 class="delivery-option-input js-delivery-option"
                 data-product-id="${matchingProduct.id}"
                 data-delivery-option-id="1"
@@ -87,6 +91,7 @@ cart.forEach((cartItem) => {
             </div>
             <div class="delivery-option">
                 <input type="radio"
+                ${cartItem.deliveryOptionId === '2' ? 'checked' : ''}
                 class="delivery-option-input js-delivery-option"
                 data-product-id="${matchingProduct.id}"
                 data-delivery-option-id="2"
@@ -102,6 +107,7 @@ cart.forEach((cartItem) => {
             </div>
             <div class="delivery-option">
                 <input type="radio"
+                ${cartItem.deliveryOptionId === '3' ? 'checked' : ''}
                 class="delivery-option-input js-delivery-option"
                 data-product-id="${matchingProduct.id}"
                 data-delivery-option-id="3"
