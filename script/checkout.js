@@ -2,13 +2,25 @@ import {
     cart,
     removeFromCart,
     itemsInCart,
-    calculateCartTotal,
     updateDeliveryOption
 } from '../data/cart.js';
 
-import { products } from '../data/products.js';
-import { formatCurrency, } from '../utils/money.js';
-import { orderSummery } from '../utils/orderSummery.js';
+import {
+    products
+} from '../data/products.js';
+
+import {
+    formatCurrency
+} from '../utils/money.js';
+
+import { 
+    orderSummery
+} from '../utils/orderSummery.js';
+
+import { 
+    setDeliveryDate,
+    setDeliveryDateTitle
+ } from '../utils/deliveryDate.js';
 
 let cartSummerHTML = '';
 
@@ -26,8 +38,8 @@ cart.forEach((cartItem) => {
 
     cartSummerHTML += 
     `<div class="cart-item-container js-cart-item-container-${matchingProduct.id}">
-        <div class="delivery-date">
-            Delivery date: Tuesday, June 21
+        <div class="delivery-date js-delivery-date-title" data-product-id="${matchingProduct.id}">
+            
         </div>
 
         <div class="cart-item-details-grid">
@@ -65,7 +77,7 @@ cart.forEach((cartItem) => {
                 data-delivery-option-id="1"
                 name="delivery-option-${matchingProduct.id}">
                 <div>
-                <div class="delivery-option-date">
+                <div class="delivery-option-date js-delivery-option-one-date">
                     Tuesday, June 21
                 </div>
                 <div class="delivery-option-price">
@@ -80,7 +92,7 @@ cart.forEach((cartItem) => {
                 data-delivery-option-id="2"
                 name="delivery-option-${matchingProduct.id}">
                 <div>
-                <div class="delivery-option-date">
+                <div class="delivery-option-date js-delivery-option-two-date">
                     Wednesday, June 15
                 </div>
                 <div class="delivery-option-price">
@@ -95,7 +107,7 @@ cart.forEach((cartItem) => {
                 data-delivery-option-id="3"
                 name="delivery-option-${matchingProduct.id}">
                 <div>
-                    <div class="delivery-option-date">
+                    <div class="delivery-option-date js-delivery-option-three-date">
                         Monday, June 13
                     </div>
                     <div class="delivery-option-price">
@@ -111,6 +123,8 @@ document.querySelector('.js-order-summery').innerHTML = cartSummerHTML;
 orderSummery();
 
 itemsInCart();
+
+setDeliveryDate();
 
 document.querySelectorAll('.js-delete-link').forEach((deleteLink) => {
     deleteLink.addEventListener('click', () => {
@@ -132,7 +146,13 @@ document.querySelectorAll('.js-delivery-option').forEach((option) => {
         const deliveryOptionId = option.dataset.deliveryOptionId;
         updateDeliveryOption(productID, deliveryOptionId);
         orderSummery();
+        setDeliveryDateTitle(productID);
     });
+});
+
+document.querySelectorAll('.js-delivery-date-title').forEach((title) => {
+    const productID = title.dataset.productId;
+    setDeliveryDateTitle(productID);
 });
 
 

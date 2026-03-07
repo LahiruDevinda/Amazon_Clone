@@ -1,4 +1,5 @@
 import { cart } from './cart.js';
+import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';
 
 export const deliveryOptions = [
   {
@@ -27,5 +28,17 @@ export function calculateShippingCost() {
             }
         });
     });
+    
     return shippingCost;
+}
+
+export function setDeliveryDate() {
+    const today = dayjs();
+    const optionOneDeliveryDate = today.add(deliveryOptions[0].deliveryDays, 'day').format('dddd, MMMM D');
+    const optionTwoDeliveryDate = today.add(deliveryOptions[1].deliveryDays, 'day').format('dddd, MMMM D');
+    const optionThreeDeliveryDate = today.add(deliveryOptions[2].deliveryDays, 'day').format('dddd, MMMM D');
+
+    document.querySelector('.js-delivery-option-one-date').innerHTML = optionOneDeliveryDate;
+    document.querySelector('.js-delivery-option-two-date').innerHTML = optionTwoDeliveryDate;
+    document.querySelector('.js-delivery-option-three-date').innerHTML = optionThreeDeliveryDate;
 }
