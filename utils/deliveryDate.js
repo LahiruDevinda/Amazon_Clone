@@ -10,9 +10,9 @@ export function setDeliveryDate() {
     const optionTwoDeliveryDate = today.add(deliveryOptions[1].deliveryDays, 'day').format('dddd, MMMM D');
     const optionThreeDeliveryDate = today.add(deliveryOptions[2].deliveryDays, 'day').format('dddd, MMMM D');
 
-    document.querySelector('.js-delivery-option-one-date').innerHTML = optionOneDeliveryDate;
-    document.querySelector('.js-delivery-option-two-date').innerHTML = optionTwoDeliveryDate;
-    document.querySelector('.js-delivery-option-three-date').innerHTML = optionThreeDeliveryDate;
+    document.querySelectorAll('.js-delivery-option-one-date').innerHTML = optionOneDeliveryDate;
+    document.querySelectorAll('.js-delivery-option-two-date').innerHTML = optionTwoDeliveryDate;
+    document.querySelectorAll('.js-delivery-option-three-date').innerHTML = optionThreeDeliveryDate;
 }
 
 export function setDeliveryDateTitle(productId){
