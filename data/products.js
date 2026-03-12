@@ -738,6 +738,24 @@ export const products = [
   return new Product(productDetails);
 });*/
 
+export function loadProductsFetch() {
+  const promise = fetch('https://supersimplebackend.dev/products').then((response) => {
+      return response.json();
+  }).then((productsData) => {
+      products = productsData.map((productDetails) => {
+
+      if(productDetails.type === 'clothing'){
+        return new Clothing(productDetails);
+      }else if (productDetails.type === 'appliance'){
+        return new Appliance(productDetails);
+      }
+      return new Product(productDetails);
+    });
+    console.log('load products')
+  });
+  return promise;
+}
+
 export let products = [];
 
 export function loadProducts(fun) {

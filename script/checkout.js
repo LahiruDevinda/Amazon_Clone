@@ -174,7 +174,6 @@ new Promise((resolve) => {
 }).then(() => {
     render();
 }); */
-
 /*
 loadProducts(() => {
     let cartSummerHTML = '';
