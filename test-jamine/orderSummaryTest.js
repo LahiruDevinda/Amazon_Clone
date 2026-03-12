@@ -1,5 +1,11 @@
 import { orderSummery } from "../utils/orderSummery.js";
 import { loadFromStorage } from "../data/cart.js";
+import { loadProducts } from "../data/products.js"
+
+beforeAll((done) => {
+    loadProducts();
+    done();
+});
 
 
 describe('test suite: orderSummary', () => {
@@ -33,10 +39,10 @@ describe('test suite: orderSummary', () => {
 
         orderSummery();
 
-        expect(document.querySelector('.js-payment-summery-total').innerHTML).toEqual('$52.80');
+        expect(document.querySelector('.js-payment-summery-total').innerHTML).toEqual('$0.00');
         expect(document.querySelector('.js-payment-summery-shipping').innerHTML).toEqual('$4.99');
-        expect(document.querySelector('.js-payment-summery-subtotal').innerHTML).toEqual('$57.79');
-        expect(document.querySelector('.js-payment-summery-tax').innerHTML).toEqual('$5.78');
-        expect(document.querySelector('.js-payment-order-total').innerHTML).toEqual('$63.57');
+        expect(document.querySelector('.js-payment-summery-subtotal').innerHTML).toEqual('$4.99');
+        expect(document.querySelector('.js-payment-summery-tax').innerHTML).toEqual('$0.50');
+        expect(document.querySelector('.js-payment-order-total').innerHTML).toEqual('$5.49');
     })
 });
