@@ -141,6 +141,23 @@ function render() {
         setDeliveryDateTitle(productID);
     });
 }
+
+async function loadPage() {
+    await loadProductsFetch();
+
+    await new Promise((resolve) => {
+        loadCart(() => {
+            resolve();
+        });
+    });
+
+    render();
+
+}
+
+loadPage();
+
+/*
 Promise.all([
     loadProductsFetch(),
 
@@ -153,7 +170,7 @@ Promise.all([
 ]).then(() => {
     render();
 });
-
+*/
 /*
 new Promise((resolve) => {
     loadProducts(() => {
