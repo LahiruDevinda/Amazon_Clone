@@ -1,5 +1,5 @@
 import { cart, removeFromCart, itemsInCart,loadCart } from '../data/cart.js';
-import { products, loadProducts } from '../data/products.js';
+import { products, loadProducts, loadProductsFetch } from '../data/products.js';
 import { orderSummery } from '../utils/orderSummery.js';
 import { updateDeliveryOption } from '../data/deliveryOptions.js';
 import { setDeliveryDate, setDeliveryDateTitle } from '../utils/deliveryDate.js';
@@ -142,11 +142,7 @@ function render() {
     });
 }
 Promise.all([
-    new Promise((resolve) => {
-        loadProducts(() => {
-            resolve();
-        });
-    }),
+    loadProductsFetch(),
 
     new Promise((resolve) => {
         loadCart(() => {
