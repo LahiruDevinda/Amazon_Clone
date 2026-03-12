@@ -143,16 +143,18 @@ function render() {
 }
 
 async function loadPage() {
-    await loadProductsFetch();
+    try{
+        await loadProductsFetch();
 
-    await new Promise((resolve) => {
-        loadCart(() => {
-            resolve();
+        const value = await new Promise((resolve) => {
+            loadCart(() => {
+                resolve();
+            });
         });
-    });
-
+    }catch (error){
+        console.log("Unexpected error.")
+    }
     render();
-
 }
 
 loadPage();
