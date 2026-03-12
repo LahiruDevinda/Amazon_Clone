@@ -5,12 +5,10 @@ import {
 } from '../data/cart.js';
 
 import {
-    products
+    products,
+    loadProducts
 } from '../data/products.js';
 
-import {
-    formatCurrency
-} from '../utils/money.js';
 
 import { 
     orderSummery
@@ -23,143 +21,146 @@ import {
 import { 
     setDeliveryDate,
     setDeliveryDateTitle
- } from '../utils/deliveryDate.js';
+} from '../utils/deliveryDate.js';
 
-let cartSummerHTML = '';
+loadProducts(() => {
+    let cartSummerHTML = '';
 
-cart.forEach((cartItem) => {
+    cart.forEach((cartItem) => {
 
-    const productID = cartItem.productId;
+        const productID = cartItem.productId;
 
-    let matchingProduct;
+        let matchingProduct;
 
-    products.forEach((product) => {
-        if (product.id === productID) {
-            matchingProduct = product;
-        }
-    });
+        products.forEach((product) => {
+            if (product.id === productID) {
+                matchingProduct = product;
+            }
+        });
 
-    cartSummerHTML += 
-    `<div class="cart-item-container js-cart-item-container-${matchingProduct.id}">
-        <div class="delivery-date js-delivery-date-title" data-product-id="${matchingProduct.id}">
-            
-        </div>
-
-        <div class="cart-item-details-grid">
-            <img class="product-image"
-            src="${matchingProduct.image}">
-
-            <div class="cart-item-details">
-            <div class="product-name">
-                ${matchingProduct.name}
-            </div>
-            <div class="product-price">
-                ${matchingProduct.getPrice()}
-            </div>
-            <div class="product-quantity">
-                <span>
-                Quantity: <span class="quantity-label">${cartItem.quantity}</span>
-                </span>
-                <span class="update-quantity-link link-primary">
-                Update
-                </span>
-                <span class="delete-quantity-link link-primary js-delete-link" data-product-id="${matchingProduct.id}">
-                Delete
-                </span>
-            </div>
+        cartSummerHTML += 
+        `<div class="cart-item-container js-cart-item-container-${matchingProduct.id}">
+            <div class="delivery-date js-delivery-date-title" data-product-id="${matchingProduct.id}">
+                
             </div>
 
-            <div class="delivery-options">
-            <div class="delivery-options-title">
-                Choose a delivery option:
-            </div>
-            <div class="delivery-option">
-                <input type="radio"
-                ${cartItem.deliveryOptionId === '1' ? 'checked' : ''}
-                class="delivery-option-input js-delivery-option"
-                data-product-id="${matchingProduct.id}"
-                data-delivery-option-id="1"
-                name="delivery-option-${matchingProduct.id}">
-                <div>
-                <div class="delivery-option-date js-delivery-option-one-date">
-                    Tuesday, June 21
+            <div class="cart-item-details-grid">
+                <img class="product-image"
+                src="${matchingProduct.image}">
+
+                <div class="cart-item-details">
+                <div class="product-name">
+                    ${matchingProduct.name}
                 </div>
-                <div class="delivery-option-price">
-                    FREE Shipping
+                <div class="product-price">
+                    ${matchingProduct.getPrice()}
+                </div>
+                <div class="product-quantity">
+                    <span>
+                    Quantity: <span class="quantity-label">${cartItem.quantity}</span>
+                    </span>
+                    <span class="update-quantity-link link-primary">
+                    Update
+                    </span>
+                    <span class="delete-quantity-link link-primary js-delete-link" data-product-id="${matchingProduct.id}">
+                    Delete
+                    </span>
                 </div>
                 </div>
-            </div>
-            <div class="delivery-option">
-                <input type="radio"
-                ${cartItem.deliveryOptionId === '2' ? 'checked' : ''}
-                class="delivery-option-input js-delivery-option"
-                data-product-id="${matchingProduct.id}"
-                data-delivery-option-id="2"
-                name="delivery-option-${matchingProduct.id}">
-                <div>
-                <div class="delivery-option-date js-delivery-option-two-date">
-                    Wednesday, June 15
+
+                <div class="delivery-options">
+                <div class="delivery-options-title">
+                    Choose a delivery option:
                 </div>
-                <div class="delivery-option-price">
-                    $4.99 - Shipping
-                </div>
-                </div>
-            </div>
-            <div class="delivery-option">
-                <input type="radio"
-                ${cartItem.deliveryOptionId === '3' ? 'checked' : ''}
-                class="delivery-option-input js-delivery-option"
-                data-product-id="${matchingProduct.id}"
-                data-delivery-option-id="3"
-                name="delivery-option-${matchingProduct.id}">
-                <div>
-                    <div class="delivery-option-date js-delivery-option-three-date">
-                        Monday, June 13
+                <div class="delivery-option">
+                    <input type="radio"
+                    ${cartItem.deliveryOptionId === '1' ? 'checked' : ''}
+                    class="delivery-option-input js-delivery-option"
+                    data-product-id="${matchingProduct.id}"
+                    data-delivery-option-id="1"
+                    name="delivery-option-${matchingProduct.id}">
+                    <div>
+                    <div class="delivery-option-date js-delivery-option-one-date">
+                        Tuesday, June 21
                     </div>
                     <div class="delivery-option-price">
-                        $9.99 - Shipping
+                        FREE Shipping
+                    </div>
                     </div>
                 </div>
+                <div class="delivery-option">
+                    <input type="radio"
+                    ${cartItem.deliveryOptionId === '2' ? 'checked' : ''}
+                    class="delivery-option-input js-delivery-option"
+                    data-product-id="${matchingProduct.id}"
+                    data-delivery-option-id="2"
+                    name="delivery-option-${matchingProduct.id}">
+                    <div>
+                    <div class="delivery-option-date js-delivery-option-two-date">
+                        Wednesday, June 15
+                    </div>
+                    <div class="delivery-option-price">
+                        $4.99 - Shipping
+                    </div>
+                    </div>
+                </div>
+                <div class="delivery-option">
+                    <input type="radio"
+                    ${cartItem.deliveryOptionId === '3' ? 'checked' : ''}
+                    class="delivery-option-input js-delivery-option"
+                    data-product-id="${matchingProduct.id}"
+                    data-delivery-option-id="3"
+                    name="delivery-option-${matchingProduct.id}">
+                    <div>
+                        <div class="delivery-option-date js-delivery-option-three-date">
+                            Monday, June 13
+                        </div>
+                        <div class="delivery-option-price">
+                            $9.99 - Shipping
+                        </div>
+                    </div>
+                </div>
+                </div>
             </div>
-            </div>
-        </div>
-    </div>`;
-});
-document.querySelector('.js-order-summery').innerHTML = cartSummerHTML;
-orderSummery();
+        </div>`;
+    });
+    document.querySelector('.js-order-summery').innerHTML = cartSummerHTML;
+    orderSummery();
 
-itemsInCart();
+    itemsInCart();
 
-setDeliveryDate();
+    setDeliveryDate();
 
-document.querySelectorAll('.js-delete-link').forEach((deleteLink) => {
-    deleteLink.addEventListener('click', () => {
-        
-        const productID = deleteLink.dataset.productId; 
-        removeFromCart(productID);
-        const container =document.querySelector(`.js-cart-item-container-${productID}`);
-        container.remove();
+    document.querySelectorAll('.js-delete-link').forEach((deleteLink) => {
+        deleteLink.addEventListener('click', () => {
+            
+            const productID = deleteLink.dataset.productId; 
+            removeFromCart(productID);
+            const container =document.querySelector(`.js-cart-item-container-${productID}`);
+            container.remove();
 
-        itemsInCart();
-        orderSummery();
+            itemsInCart();
+            orderSummery();
+        });
+
     });
 
-});
+    document.querySelectorAll('.js-delivery-option').forEach((option) => {
+        option.addEventListener('click', () => {
+            const productID = option.dataset.productId;
+            const deliveryOptionId = option.dataset.deliveryOptionId;
+            updateDeliveryOption(productID, deliveryOptionId);
+            orderSummery();
+            setDeliveryDateTitle(productID);
+        });
+    });
 
-document.querySelectorAll('.js-delivery-option').forEach((option) => {
-    option.addEventListener('click', () => {
-        const productID = option.dataset.productId;
-        const deliveryOptionId = option.dataset.deliveryOptionId;
-        updateDeliveryOption(productID, deliveryOptionId);
-        orderSummery();
+    document.querySelectorAll('.js-delivery-date-title').forEach((title) => {
+        const productID = title.dataset.productId;
         setDeliveryDateTitle(productID);
     });
 });
 
-document.querySelectorAll('.js-delivery-date-title').forEach((title) => {
-    const productID = title.dataset.productId;
-    setDeliveryDateTitle(productID);
-});
 
 
 
