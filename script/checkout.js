@@ -1,8 +1,9 @@
-import { cart, removeFromCart, itemsInCart,loadCart } from '../data/cart.js';
-import { products, loadProducts, loadProductsFetch } from '../data/products.js';
+import { cart, removeFromCart, itemsInCart,loadCart, updateCartQuantity, clearCart } from '../data/cart.js';
+import { products, loadProductsFetch } from '../data/products.js';
 import { orderSummery } from '../utils/orderSummery.js';
 import { updateDeliveryOption } from '../data/deliveryOptions.js';
 import { setDeliveryDate, setDeliveryDateTitle } from '../utils/deliveryDate.js';
+import { addOrder } from '../data/orders.js';
 
 function render() {
     let cartSummerHTML = '';
@@ -139,6 +140,35 @@ function render() {
     document.querySelectorAll('.js-delivery-date-title').forEach((title) => {
         const productID = title.dataset.productId;
         setDeliveryDateTitle(productID);
+    });
+
+    document.querySelector('.js-place-order-button').addEventListener('click', async() => {
+        if(cart.length>0){
+            try{
+            const response = await fetch('https://supersimplebackend.dev/orders', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json' 
+            },
+            body: JSON.stringify({
+                cart: cart
+            })
+        });
+       
+        const order = await response.json();
+        addOrder(order);
+
+        clearCart();
+        
+        window.location.href = 'orders.html';
+        
+        }catch(error){
+            console.log('Unexpected error.')
+        }
+        
+        }else{
+            console.log('Cart is empty.');
+        }
     });
 }
 
