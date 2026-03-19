@@ -53,6 +53,11 @@ export function saveToLocalStorage() {
   localStorage.setItem('cart', JSON.stringify(cart));
 }
 
+export function clearCart() {
+  cart = []; 
+  saveToLocalStorage(); 
+}
+
 export function itemsInCart() {
   let cartQuantity = cart.length;
 
@@ -104,3 +109,4 @@ export function loadCart(fun) {
   xhr.send();
 
 }
+
